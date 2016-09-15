@@ -1,0 +1,8 @@
+No arquivo Test.txt a primeira linha possui o número de blocos,
+a segunda linha possui o número de palavras por bloco,
+a terceira linha possui a associatividade,
+a quarta linha o número de instruções
+e as próximas n linhas as instruções.
+
+Basta alterar o conteúdo do arquivo Test.txt para executar a
+Main, o resultado será exibido no terminal.

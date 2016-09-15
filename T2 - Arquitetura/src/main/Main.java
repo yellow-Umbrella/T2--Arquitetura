@@ -8,7 +8,7 @@ import util.FileControl;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-		String[] leitura = FileControl.reader("Test.txt"); //
+		String[] leitura = FileControl.reader("trace.in"); //
 		
 		int nBlocos = Integer.parseInt(leitura[0]);
 		int palavrasPBloco = Integer.parseInt(leitura[1]);

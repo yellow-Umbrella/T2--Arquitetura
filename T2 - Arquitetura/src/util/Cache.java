@@ -4,7 +4,6 @@ public class Cache {
 	private int hit;
 	private int miss;
 	private Conjunto[] conjuntos;
-	private int lengthBlocos;
 	private int palavrasPBloco;
 	private int way;
 	
@@ -25,12 +24,10 @@ public class Cache {
 		this.palavrasPBloco = palavrasPBloco;
 		this.way = way;
 		
-		conjuntos = new Conjunto[way];
-		
-		this.lengthBlocos = nBlocos/way;
+		conjuntos = new Conjunto[nBlocos/way];
 		
 		for(int i = 0; i < conjuntos.length; i++)
-			conjuntos[i] = new Conjunto(lengthBlocos, palavrasPBloco);
+			conjuntos[i] = new Conjunto(way, palavrasPBloco);
 		
 	}
 	
@@ -42,28 +39,38 @@ public class Cache {
 		
 		int end1 = endereco/4;
 		int end2 = end1/palavrasPBloco;
-		int tag = end2/way;
-		boolean deuHit = false;
+		int blockOffset = end1%way; //blockoffset bloco a ler
+		int tag = end2/conjuntos.length; // tag
 		
-		int index = end2%lengthBlocos;
+		int index = end2%conjuntos.length; //index endereço do conjunto
 		
-		Bloco[] vet = new Bloco[way];
-		
-		int i = 0;
-		for(Conjunto x: conjuntos)
-			vet[i++] = x.getBlocos()[index];
-		
-		for(Bloco x: vet)
-			if(x.getV())
-				if(x.getTag().equals(tag+"")) {
-					hit++;
-					deuHit = true;
-					return;
-				}
-		if(!deuHit) {
+		if(conjuntos[index].getBlocos()[blockOffset].getV()) {
+			if(conjuntos[index].getBlocos()[blockOffset].getTag().equals(tag)) {
+				hit++;
+			}
+		}
+		else {
 			miss++;
 			operacao(endereco, 0);
 		}
+			
+		
+		
+//		int i = 0;
+//		for(Conjunto x: conjuntos)
+//			vet[i++] = x.getBlocos()[index];
+//		
+//		for(Bloco x: vet)
+//			if(x.getV())
+//				if(x.getTag().equals(tag+"")) {
+//					hit++;
+//					deuHit = true;
+//					return;
+//				}
+//		if(!deuHit) {
+//			miss++;
+//			operacao(endereco, 0);
+//		}
 		
 	}
 	
@@ -76,30 +83,30 @@ public class Cache {
 		
 		int end1 = endereco/4;
 		int end2 = end1/palavrasPBloco;
-		int blockOffset = end1%palavrasPBloco;
-		int tag = end2/way;
-		int aux = endereco;
+		int blockOffset = end1%way;
+		int tag = end2/conjuntos.length;
 		
+		int index = end2%conjuntos.length;
 		
-		int index = end2%way;
-		int indexConjunto = 0;
-		
-		if(conjuntos[indexConjunto].getBlocos()[index].getV())
-			hit++;
-		
-		do {
-			aux -= lengthBlocos;
-			if(aux < 0) {
-				conjuntos[indexConjunto].getBlocos()[index].setPalavra(valor+"", blockOffset);
-				conjuntos[indexConjunto].getBlocos()[index].setV(true);
-				conjuntos[indexConjunto].getBlocos()[index].setTag(tag+"");
+		//for(int i = 0; i < way; i++) {
+			
+			if(conjuntos[index].getBlocos()[blockOffset].getV()) {
+				hit++;
+				//break;
 			}
-			indexConjunto++;
-			if(indexConjunto > way-1)
-				indexConjunto = 0;
-		}while(aux > 0);
+			else {
+				conjuntos[index].getBlocos()[blockOffset].setTag(tag+"");
+				conjuntos[index].getBlocos()[blockOffset].setV(true);
+				miss++; //sem fica 89%
+			}
+			
+		//}
 		
-		
+//		if(conjuntos[index].getBlocos()[blockOffset].getV())
+//			hit++;
+//		
+//		conjuntos[index].getBlocos()[blockOffset].setTag(tag+"");
+//		conjuntos[index].getBlocos()[blockOffset].setV(true);
 		
 		
 	}
