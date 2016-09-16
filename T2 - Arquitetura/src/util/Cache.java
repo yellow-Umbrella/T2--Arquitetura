@@ -97,7 +97,7 @@ public class Cache {
 			else {
 				conjuntos[index].getBlocos()[blockOffset].setTag(tag+"");
 				conjuntos[index].getBlocos()[blockOffset].setV(true);
-				miss++; //sem fica 89%
+				miss++; //sem fica 89% //com fica 74%
 			}
 			
 		//}
