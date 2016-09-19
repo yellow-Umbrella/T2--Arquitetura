@@ -4,7 +4,7 @@ public class Bloco {
 	
 	private String[] palavra;
 	private boolean v;
-	private String tag;
+	private int tag;
 	
 	/**
 	 * Construtor padrão.
@@ -56,7 +56,7 @@ public class Bloco {
 	 * Retorna valor da tag.
 	 * @return
 	 */
-	public String getTag() {
+	public int getTag() {
 		return tag;
 	}
 
@@ -64,7 +64,7 @@ public class Bloco {
 	 * Set valor da tag.
 	 * @param tag
 	 */
-	public void setTag(String tag) {
+	public void setTag(int tag) {
 		this.tag = tag;
 	}
 	
